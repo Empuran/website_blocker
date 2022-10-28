@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/drawable/border.xml" value="0.1665" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/drawable/ic_button_shape.xml" value="0.12" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/drawable/thumb_selector.xml" value="0.2085" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/drawable/track_selector.xml" value="0.2085" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/layout-v26/activity_dashboard.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/layout/activity_dashboard.xml" value="0.25" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/A0018/AndroidStudioProjects/WebstiteBlocker/app/src/main/res/layout/dashboard_activity.xml" value="0.22447916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
