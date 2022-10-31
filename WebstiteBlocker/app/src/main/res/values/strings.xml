@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WebstiteBlocker</string>
+    <string name="schedule">Schedule</string>
+    <string name="add_your_timing">Add your timing</string>
+    <string name="ends">ENDS</string>
+    <string name="starts">STARTS</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="mode">Mode</string>
+    <string name="whitelist">Whitelist</string>
+    <string name="blacklist">Blacklist</string>
+    <string name="whitelist_desp">In the whitelist mode, the websites in the list are allowed but all other websites are blocked</string>
+    <string name="blacklist_desp">In the blacklist mode, the websites in the list are blocked but all other websites are allowed</string>
+    <string name="add_timing">Add Timing</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="accessibility_service_description">Descriptin</string>
+</resources>
