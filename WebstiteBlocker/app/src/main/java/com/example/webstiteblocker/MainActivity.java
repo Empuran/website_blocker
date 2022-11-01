@@ -2,8 +2,10 @@ package com.example.webstiteblocker;
 
 import static android.app.Service.START_STICKY;
 
+import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -89,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                        startActivity(i);
                    }else {
                        Toast.makeText(getApplicationContext(),"Permission required",Toast.LENGTH_LONG).show();
+                       Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                       startActivity(intent);
+
                    }
                 }
             });
@@ -134,14 +140,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         if (accessEnabled == 0) {
-
-            // if not construct intent to request permission
-            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-            intent.putExtra("is_white_list",false);
-            startActivity(intent);
+            ContextCompat.checkSelfPermission( getApplicationContext(), Manifest.permission.BIND_ACCESSIBILITY_SERVICE);
             return false;
         } else {
             return true;
         }
+
+
     }
 }

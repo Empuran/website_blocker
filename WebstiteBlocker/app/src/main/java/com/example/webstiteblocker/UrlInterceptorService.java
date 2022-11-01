@@ -94,9 +94,9 @@ public class UrlInterceptorService extends AccessibilityService {
         if (eventTime - lastRecordedTime > 2000) {
             previousUrlDetections.put(detectionId, eventTime);
 
-            if(isInsideTimer()) {
+//            if(isInsideTimer()) {
                 analyzeCapturedUrl(capturedUrl, browserConfig.packageName);
-            }
+//            }
         }
     }
 
@@ -107,20 +107,20 @@ public class UrlInterceptorService extends AccessibilityService {
         //TODO change time 12 to 24
         try {
             String startTime = start[0];
-            Date time1 = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+            Date time1 = new SimpleDateFormat("HH:mm").parse(startTime);
             Calendar startCalender = Calendar.getInstance();
             startCalender.setTime(time1);
             startCalender.add(Calendar.DATE, 1);
 
 
             String endTime = end[0];
-            Date time2 = new SimpleDateFormat("HH:mm:ss").parse(endTime);
+            Date time2 = new SimpleDateFormat("HH:mm").parse(endTime);
             Calendar endCaleneder = Calendar.getInstance();
             endCaleneder.setTime(time2);
             endCaleneder.add(Calendar.DATE, 1);
 
-            String currentTime = LocalDateTime.now().toString();
-            Date d = new SimpleDateFormat("HH:mm:ss").parse(currentTime);
+            String currentTime = LocalDateTime.now().toString().split("T")[1];
+            Date d = new SimpleDateFormat("HH:mm").parse(currentTime);
             Calendar currentDate = Calendar.getInstance();
             currentDate.setTime(d);
             currentDate.add(Calendar.DATE, 1);
@@ -170,15 +170,17 @@ public class UrlInterceptorService extends AccessibilityService {
     private void performRedirect(@NonNull String redirectUrl, @NonNull String browserPackage) {
         Toast.makeText(this, "Url Found!!!", Toast.LENGTH_LONG).show();
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl));
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData( Uri.parse(redirectUrl));
             intent.setPackage(browserPackage);
             intent.putExtra(Browser.EXTRA_APPLICATION_ID, browserPackage);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
-        catch(ActivityNotFoundException e) {
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl));
+        catch(Exception e) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setData( Uri.parse(redirectUrl));
             startActivity(i);
         }
     }

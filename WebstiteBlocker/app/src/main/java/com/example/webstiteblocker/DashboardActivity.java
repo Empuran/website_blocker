@@ -74,4 +74,18 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
         }
     }
 
+    public boolean checkAccessibilityPermission () {
+        int accessEnabled = 0;
+        try {
+            accessEnabled = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (accessEnabled == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
