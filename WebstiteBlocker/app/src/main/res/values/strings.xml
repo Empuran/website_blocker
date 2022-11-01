@@ -14,5 +14,7 @@
     <string name="add_timing">Add Timing</string>
     <string name="from">From</string>
     <string name="to">To</string>
-    <string name="accessibility_service_description">WebstiteBlocker app  need this permission to block un wanted websites</string>
+    <string name="accessibility_service_description">WebstiteBlocker app  needs this permission to block un-wanted websites</string>
+    <string name="permission_accessibility">WebstiteBlocker needs accessibility permission for fetching data from browsers</string>
+    <string name="permission_popup">WebstiteBlocker needs permission pop-up display</string>
 </resources>

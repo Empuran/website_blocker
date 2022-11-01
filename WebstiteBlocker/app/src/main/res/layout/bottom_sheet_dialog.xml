@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="11:00 AM"
+                    android:text=""
                     android:textSize="18sp"/>
 
                 <ImageView
@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="12:00 PM"
+                    android:text=""
                     android:textSize="18sp"/>
 
                 <ImageView

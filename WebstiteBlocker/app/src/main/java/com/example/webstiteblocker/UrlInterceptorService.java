@@ -3,10 +3,12 @@ package com.example.webstiteblocker;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Browser;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
@@ -27,7 +29,6 @@ import java.util.List;
 
 public class UrlInterceptorService extends AccessibilityService {
     private HashMap<String, Long> previousUrlDetections = new HashMap<>();
-    private List<String> urls = Arrays.asList("facebook.com","twitter.com","instagram.com","reddit.com","9gag.com");
     AppPreference preference;
 
 
@@ -94,51 +95,45 @@ public class UrlInterceptorService extends AccessibilityService {
         if (eventTime - lastRecordedTime > 2000) {
             previousUrlDetections.put(detectionId, eventTime);
 
-//            if(isInsideTimer()) {
+            if(isInsideTimer()) {
                 analyzeCapturedUrl(capturedUrl, browserConfig.packageName);
-//            }
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean isInsideTimer(){
-        String[] start = preference.getStartTime().split(" ");
-        String[] end = preference.getEndTime().split(" ");
-        //TODO change time 12 to 24
+        String[] start = preference.getStartTime().split(":");
+        String[] end = preference.getEndTime().split(":");
         try {
-            String startTime = start[0];
-            Date time1 = new SimpleDateFormat("HH:mm").parse(startTime);
-            Calendar startCalender = Calendar.getInstance();
-            startCalender.setTime(time1);
-            startCalender.add(Calendar.DATE, 1);
+            Calendar startTime = Calendar.getInstance();
+            startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(start[0]));
+            startTime.set(Calendar.MINUTE, Integer.parseInt(start[1]));
 
+            Calendar endTime = Calendar.getInstance();
+            endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(end[0]));
+            endTime.set(Calendar.MINUTE, Integer.parseInt(end[1]));
 
-            String endTime = end[0];
-            Date time2 = new SimpleDateFormat("HH:mm").parse(endTime);
-            Calendar endCaleneder = Calendar.getInstance();
-            endCaleneder.setTime(time2);
-            endCaleneder.add(Calendar.DATE, 1);
+            LocalDateTime now = LocalDateTime.now();
+            Calendar current = Calendar.getInstance();
+            current.set(Calendar.HOUR_OF_DAY,now.getHour());
+            current.set(Calendar.MINUTE,now.getMinute());
 
-            String currentTime = LocalDateTime.now().toString().split("T")[1];
-            Date d = new SimpleDateFormat("HH:mm").parse(currentTime);
-            Calendar currentDate = Calendar.getInstance();
-            currentDate.setTime(d);
-            currentDate.add(Calendar.DATE, 1);
-
-            Date x = currentDate.getTime();
-            if (x.after(startCalender.getTime()) && x.before(endCaleneder.getTime())) {
-               return true;
+            if(current.after(startTime) && current.before(endTime)){
+                return true;
+            }else {
+                return  false;
             }
-        } catch (ParseException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-
-        return false;
     }
 
     private void analyzeCapturedUrl(@NonNull String capturedUrl, @NonNull String browserPackage) {
-        String redirectUrl = "https://nokkiirunnoippokittum.com";
+        String redirectUrl = "https://sites.google.com/view/website-blocker/home";
+        List<String> urls = Arrays.asList("facebook.com","twitter.com","instagram.com","reddit.com","9gag.com");
         Boolean isWhiteList = preference.isWhiteList();
         boolean isFound = false;
 
@@ -153,22 +148,15 @@ public class UrlInterceptorService extends AccessibilityService {
             }
         }else {
             //TODO some issues are still there .workout hear
-            for (String url : urls) {
-                if (capturedUrl.contains(url) || capturedUrl.equals("search or type web address")) {
-                    isFound = true;
-                }
-            }
-            if(!isFound){
 
-                performRedirect(redirectUrl,browserPackage);
-            }
         }
 
     }
 
 
     private void performRedirect(@NonNull String redirectUrl, @NonNull String browserPackage) {
-        Toast.makeText(this, "Url Found!!!", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Url Found!!!", Toast.LENGTH_LONG).show();
+        Log.i("performRedirect","startActivity");
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData( Uri.parse(redirectUrl));
@@ -176,12 +164,14 @@ public class UrlInterceptorService extends AccessibilityService {
             intent.putExtra(Browser.EXTRA_APPLICATION_ID, browserPackage);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+            Log.i("performRedirect","startActivity I");
         }
         catch(Exception e) {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setData( Uri.parse(redirectUrl));
             startActivity(i);
+            Log.i("performRedirect","startActivity II");
         }
     }
 
