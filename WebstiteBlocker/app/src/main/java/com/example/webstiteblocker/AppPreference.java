@@ -1,5 +1,10 @@
 package com.example.webstiteblocker;
-
+/**
+ * author: Jayasankar Punnakunnil
+ * Date : 01-11-2022
+ *
+ * class : AppPreference.java
+ * */
 import android.content.Context;
 import android.content.SharedPreferences;
 

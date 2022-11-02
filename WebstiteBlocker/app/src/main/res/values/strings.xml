@@ -17,4 +17,7 @@
     <string name="accessibility_service_description">WebstiteBlocker app  needs this permission to block un-wanted websites</string>
     <string name="permission_accessibility">WebstiteBlocker needs accessibility permission for fetching data from browsers</string>
     <string name="permission_popup">WebstiteBlocker needs permission pop-up display</string>
+    <string name="add">Add</string>
+    <string name="add_your_url">Add Your URL</string>
+    <string name="type_url_here">Type url here!</string>
 </resources>

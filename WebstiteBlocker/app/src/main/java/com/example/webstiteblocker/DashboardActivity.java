@@ -1,12 +1,19 @@
 package com.example.webstiteblocker;
-
+/**
+ * author: Jayasankar Punnakunnil
+ * Date : 01-11-2022
+ *
+ * class : DashboardActivity.java
+ * */
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
@@ -25,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -57,12 +65,6 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
     @BindView(R.id.tv_description)
     TextView tv_description;
 
-    @BindView(R.id.rv_list)
-    RecyclerView rv_list;
-
-    @BindView(R.id.bt_add_item)
-    Button bt_add_item;
-
     private AppPreference preference;
     private String startTime,endTime;
 
@@ -77,20 +79,13 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
         preference = new AppPreference(getApplicationContext());
 
         sw_mode.setChecked(!preference.isWhiteList());
-        List<String> list = preference.getUrl();
-
-
-        rv_list.setHasFixedSize(true);
-        rv_list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        UrlListAdapter adapter = new UrlListAdapter(list);
-        rv_list.setAdapter(adapter);
 
         setTimeValues();
         tv_edit.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
-        bt_add_item.setOnClickListener(this);
     }
 
+    /** Set Time value from preference */
     public void setTimeValues(){
         String meridian = "";
         String start = preference.getStartTime();
@@ -131,6 +126,7 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
 
     }
 
+    /** Mode changer */
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         if(isChecked){
@@ -208,6 +204,7 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
         }
     }
 
+    /** Dialog for set time */
     public void setTime( TextView textView){
 
         final Calendar c = Calendar.getInstance();
@@ -244,4 +241,5 @@ public class DashboardActivity extends AppCompatActivity implements CompoundButt
                 }, hour, minute, false);
         timePickerDialog.show();
     }
+
 }

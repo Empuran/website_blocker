@@ -1,5 +1,10 @@
 package com.example.webstiteblocker;
-
+/**
+ * author: Jayasankar Punnakunnil
+ * Date : 01-11-2022
+ *
+ * class : MainActivity.java
+ * */
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initializeUrl();
     }
 
+    /** initialize urls black-list urls */
     private void initializeUrl() {
         List<String>  list = preference.getUrl();
         if(preference.getUrl().size() == 0) {
@@ -75,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /** Set default time as current time */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDefault() {
         LocalDateTime now = LocalDateTime.now();
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bottomSheetDialog.show();
         }
     }
-
+    /** Time picker dialog */
     public void setTime( TextView textView){
 
         final Calendar c = Calendar.getInstance();
@@ -201,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timePickerDialog.show();
     }
 
+    /** Dialog for ask accessibility permission */
     public void askAccessibilityPermissions () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("WebSiteBlocker needs permissions");
@@ -222,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
+    /** Dialog for ask pup-up permission  */
     public void askPopupPermissions () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("WebSiteBlocker needs permissions");
@@ -247,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /** Permission handler */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

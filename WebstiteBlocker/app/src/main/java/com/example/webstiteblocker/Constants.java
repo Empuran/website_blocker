@@ -1,5 +1,10 @@
 package com.example.webstiteblocker;
-
+/**
+ * author: Jayasankar Punnakunnil
+ * Date : 01-11-2022
+ *
+ * class : Constants.java
+ * */
 import java.util.Arrays;
 import java.util.List;
 

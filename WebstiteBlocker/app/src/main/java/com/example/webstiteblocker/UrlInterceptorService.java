@@ -1,5 +1,10 @@
 package com.example.webstiteblocker;
-
+/**
+ * author: Jayasankar Punnakunnil
+ * Date : 01-11-2022
+ *
+ * class : UrlInterceptorService.java
+ * */
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.ActivityNotFoundException;
@@ -32,10 +37,11 @@ public class UrlInterceptorService extends AccessibilityService {
     AppPreference preference;
 
 
+    /** Start Accessibility service */
     @Override
     protected void onServiceConnected() {
         preference =new  AppPreference(getApplicationContext());
-        Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
         AccessibilityServiceInfo info = getServiceInfo();
         info.eventTypes = AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
         info.packageNames = packageNames();
@@ -47,6 +53,7 @@ public class UrlInterceptorService extends AccessibilityService {
         this.setServiceInfo(info);
     }
 
+    /** Capture url from browser */
     private String captureUrl(AccessibilityNodeInfo info, SupportedBrowserConfig config) {
         List<AccessibilityNodeInfo> nodes = info.findAccessibilityNodeInfosByViewId(config.addressBarId);
         if (nodes == null || nodes.size() <= 0) {
@@ -62,6 +69,8 @@ public class UrlInterceptorService extends AccessibilityService {
         return url;
     }
 
+
+    /** Detect Accessibility events */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onAccessibilityEvent(@NonNull AccessibilityEvent event) {
@@ -101,6 +110,7 @@ public class UrlInterceptorService extends AccessibilityService {
         }
     }
 
+    /** Check Accessibility event occur in selected time period */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean isInsideTimer(){
         String[] start = preference.getStartTime().split(":");
@@ -131,6 +141,8 @@ public class UrlInterceptorService extends AccessibilityService {
         }
     }
 
+
+    /** Analyze url and restrict */
     private void analyzeCapturedUrl(@NonNull String capturedUrl, @NonNull String browserPackage) {
         String redirectUrl = "https://sites.google.com/view/website-blocker/home";
         List<String> urls = Arrays.asList("facebook.com","twitter.com","instagram.com","reddit.com","9gag.com");
@@ -147,13 +159,23 @@ public class UrlInterceptorService extends AccessibilityService {
                 performRedirect(redirectUrl,browserPackage);
             }
         }else {
-            //TODO some issues are still there .workout hear
+            for (String url : urls) {
+                if (capturedUrl.contains(url)) {
+                    isFound =true;
+                }
+            }
+            if(!isFound){
+                if(!capturedUrl.equalsIgnoreCase("Search or type web address")){
+                performRedirect(redirectUrl,browserPackage);
+                }
+            }
 
         }
 
     }
 
 
+    /** Perform redirect function */
     private void performRedirect(@NonNull String redirectUrl, @NonNull String browserPackage) {
 //        Toast.makeText(this, "Url Found!!!", Toast.LENGTH_LONG).show();
         Log.i("performRedirect","startActivity");
@@ -195,11 +217,13 @@ public class UrlInterceptorService extends AccessibilityService {
         }
     }
 
+
+    /** Get supported browser list */
     @NonNull
     private static List<SupportedBrowserConfig> getSupportedBrowsers() {
         List<SupportedBrowserConfig> browsers = new ArrayList<>();
         browsers.add( new SupportedBrowserConfig("com.android.chrome", "com.android.chrome:id/url_bar"));
-//        browsers.add( new SupportedBrowserConfig("org.mozilla.firefox", "org.mozilla.firefox:id/url_bar_title"));
+        browsers.add( new SupportedBrowserConfig("org.mozilla.firefox", "org.mozilla.firefox:id/url_bar_title"));
         return browsers;
     }
 }
